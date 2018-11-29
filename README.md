@@ -1,14 +1,14 @@
 # OOP_Ex2-4
 This project is a base for displaying geographical info.
 It contains the following packages:
-<a> Geom: Geometrical shapes including lines, paths, circles, squares etc. </a>
-<a> Coords: Coordinates convertion from/to local, global coordinates. </a>
-<a> Gis: geographical info, devided into layers, with time, poition, color etc. </a>
-<a> Algorithms: Golbal Algorithms such as choosing inside of a square, choosing at a distance, transforming etc. </a>
-<a> File_format: Reading and Writing to and from CSV, JSON and KML files. </a>
+<textarea > Geom: Geometrical shapes including lines, paths, circles, squares etc. </textarea >
+<textarea > Coords: Coordinates convertion from/to local, global coordinates. </textarea >
+<textarea > Gis: geographical info, devided into layers, with time, poition, color etc. </textarea >
+<textarea > Algorithms: Golbal Algorithms such as choosing inside of a square, choosing at a distance, transforming etc. </a>
+<textarea > File_format: Reading and Writing to and from CSV, JSON and KML files. </textarea >
 
 Dependencies
-<a> JAK (Java API for KML): https://labs.micromata.de/projects/jak.html </a>
-<a> JSON: http://code.google.com/p/json-simple/ </a>
+<textarea > JAK (Java API for KML): https://labs.micromata.de/projects/jak.html </textarea >
+<textarea > JSON: http://code.google.com/p/json-simple/ </textarea >
   
 Note: this Project was only partially completed yet, as it is an assignment for OOP at Ariel University.
