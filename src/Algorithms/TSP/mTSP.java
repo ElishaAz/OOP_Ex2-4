@@ -46,5 +46,10 @@ public interface mTSP
 	/**
 	 * @return a list of move records for each of the salesmen.
 	 */
-	List<List<MoveRecord>> getAllRecords();
+	List<List<MoveRecord>> getAllMoveRecords();
+
+	/**
+	 * @return visit time of each of the cities.
+	 */
+	double[] getVisitTimes();
 }

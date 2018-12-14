@@ -218,7 +218,7 @@ public class MultiTSP implements mTSP
 	 * @return a list of move records for each of the salesmen.
 	 */
 	@Override
-	public List<List<MoveRecord>> getAllRecords()
+	public List<List<MoveRecord>> getAllMoveRecords()
 	{
 		List<List<MoveRecord>> recordLists = new ArrayList<>(salesmen.length);
 		for (Salesman salesman : salesmen)
@@ -227,6 +227,22 @@ public class MultiTSP implements mTSP
 		}
 
 		return recordLists;
+	}
+
+	/**
+	 * @return visit time of each of the cities. Note: will return negative infinity if the city was not visited yet.
+	 */
+	@Override
+	public double[] getVisitTimes()
+	{
+		double[] times = new double[cities.length];
+
+		for (int i = 0; i < cities.length; i++)
+		{
+			times[i] = cities[i].timeVisited();
+		}
+
+		return times;
 	}
 
 	/**
