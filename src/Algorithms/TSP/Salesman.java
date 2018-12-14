@@ -53,7 +53,7 @@ public class Salesman
 		record.endTime = currentTime;
 		records.add(record);
 
-		return city.visit();
+		return city.visit(currentTime);
 	}
 
 	/**
