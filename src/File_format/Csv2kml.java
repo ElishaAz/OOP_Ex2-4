@@ -5,14 +5,13 @@ import GIS.Layer;
 import GIS.Project;
 
 import java.io.File;
-import java.util.Date;
 
 /**
  * @author Elisha
  */
 public class Csv2kml
 {
-	public static boolean convert(String inFileName, String outFileName, MenuSettings settings)
+	public static boolean convert(String inFileName, String outFileName, CSV_MenuSettings settings)
 	{
 		File in = new File(inFileName);
 		File out = new File(outFileName);

@@ -24,17 +24,17 @@ import java.util.List;
  */
 public class ReadWrite
 {
+	public static final String csvSplitRegex = ",";
 	public static String[][] readCSV(File file)
 	{
 		List<String[]> csvFile = new LinkedList<>();
-		String splitStr = ",";
 		String line;
 
 		try (BufferedReader br = new BufferedReader(new FileReader(file)))
 		{
 			while ((line = br.readLine()) != null)
 			{
-				csvFile.add(line.split(splitStr));
+				csvFile.add(line.split(csvSplitRegex));
 			}
 
 		} catch (IOException e)
@@ -43,6 +43,32 @@ public class ReadWrite
 		}
 
 		return csvFile.toArray(new String[csvFile.size()][]);
+	}
+
+	public static void writeCSV(File file, String[][] csvFile)
+	{
+		StringBuilder line;
+
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter(file)))
+		{
+			for (int i = 0; i < csvFile.length; i++)
+			{
+				if (csvFile[i].length > 0)
+				{
+					line = new StringBuilder(csvFile[i][0]);
+					for (int j = 1; j < csvFile[i].length; j++)
+					{
+						line.append(csvSplitRegex).append(csvFile[i][j]);
+					}
+					bw.write(line.toString());
+				}
+				bw.newLine();
+			}
+
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -56,9 +82,9 @@ public class ReadWrite
 	 * @param latIndex       the line index of the latitude values.
 	 * @param lonIndex       the line index of the longitude values.
 	 * @param altIndex       the line index of the altitude values (set to -1 if there isn't one. the altitude will be
-	 *                         set to 0).
+	 *                       set to 0).
 	 * @param nameIndex      the line index of the new for LLAElement's Data (set to -1 if there isn't one. name will
-	 *                          be set to "").
+	 *                       be set to "").
 	 * @return a {@code GIS.Layer} object representing {@code file}.
 	 */
 	public static Layer<LLAElement> stringsToLayer(String[][] file, long time, String name, int fileStartIndex,
@@ -107,7 +133,8 @@ public class ReadWrite
 				elementName = null;
 			} else
 			{
-				throw new ArrayIndexOutOfBoundsException("nameIndex is out of bounds. Set to -1 if you don't want to " +
+				throw new ArrayIndexOutOfBoundsException("nameIndex is out of bounds. Set to -1 if you don't want to" +
+						" " +
 						"use it");
 			}
 
@@ -126,7 +153,8 @@ public class ReadWrite
 				time = (new Date()).getTime();
 			} else
 			{
-				throw new ArrayIndexOutOfBoundsException("nameIndex is out of bounds. Set to -1 if you don't want to " +
+				throw new ArrayIndexOutOfBoundsException("nameIndex is out of bounds. Set to -1 if you don't want to" +
+						" " +
 						"use it");
 			}
 			layer.add(new LLAElement(new LLA(lat, lon, alt), time, (elementName == null) ? "" : elementName));
@@ -147,8 +175,8 @@ public class ReadWrite
 	 * @param lonMenuValue  Longitude's value in the menu.
 	 * @param altMenuValue  Altitude's value in the menu.
 	 * @param nameMenuValue the line's name's value in the menu.
-	 * @param timeMenuValue the lin's time's value in the menu.
-	 * @param timePattern   the format the time is in (i.e. "yyyy-MM-dd HH:mm:ss").
+	 * @param timeMenuValue the lin's currentTime's value in the menu.
+	 * @param timePattern   the format the currentTime is in (i.e. "yyyy-MM-dd HH:mm:ss").
 	 * @return a {@code GIS.Layer} object representing {@code file}.
 	 */
 	public static Layer<LLAElement> stringsToLayer(String[][] file, long time, String name, int menuIndex,
@@ -214,7 +242,7 @@ public class ReadWrite
 	 * @param settings a {@code MenuSettings} object with the settings.
 	 * @return a {@code GIS.Layer} object representing {@code file}.
 	 */
-	public static Layer<LLAElement> stringsToLayer(String[][] file, long time, String name, MenuSettings settings)
+	public static Layer<LLAElement> stringsToLayer(String[][] file, long time, String name, CSV_MenuSettings settings)
 	{
 		return stringsToLayer(file, time, name, settings.menuIndex, settings.latMenuValue, settings.lonMenuValue,
 				settings.altMenuValue,

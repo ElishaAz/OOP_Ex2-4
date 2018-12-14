@@ -12,7 +12,7 @@ import java.util.Objects;
  */
 public class MultiCSV
 {
-	public static Project<Layer<LLAElement>> readFolder(String folderName, MenuSettings settings)
+	public static Project<Layer<LLAElement>> readFolder(String folderName, CSV_MenuSettings settings)
 	{
 		File file = new File(folderName);
 
@@ -24,7 +24,7 @@ public class MultiCSV
 	}
 
 	private static Project<Layer<LLAElement>> readFolderRe(final File folder, Project<Layer<LLAElement>> project,
-														   MenuSettings settings)
+														   CSV_MenuSettings settings)
 	{
 		for (final File file : Objects.requireNonNull(folder.listFiles()))
 		{
