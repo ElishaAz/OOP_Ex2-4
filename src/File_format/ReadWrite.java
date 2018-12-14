@@ -32,7 +32,7 @@ public class ReadWrite
 		{
 			while ((line = br.readLine()) != null)
 			{
-				csvFile.add(line.split(csvSplitRegex));
+				csvFile.add(line.split(csvSplitRegex, -1));
 			}
 
 		} catch (IOException e)

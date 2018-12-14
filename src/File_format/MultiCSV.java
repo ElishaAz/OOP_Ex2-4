@@ -12,25 +12,25 @@ import java.util.Objects;
  */
 public class MultiCSV
 {
-	public static Project<Layer<LLAElement>> readFolder(String folderName, CSV_MenuSettings settings)
+	public static Project<Layer<LLAElement>> readFolder(String folderName, CSV_MenuSettings settings, long duration)
 	{
 		File file = new File(folderName);
 
 		Project<Layer<LLAElement>> projct = new Project<>();
 		if (file.isDirectory())
-		return readFolderRe(file, projct, settings);
+			return readFolderRe(file, projct, settings, duration);
 		else
 			return projct;
 	}
 
 	private static Project<Layer<LLAElement>> readFolderRe(final File folder, Project<Layer<LLAElement>> project,
-														   CSV_MenuSettings settings)
+														   CSV_MenuSettings settings, long duration)
 	{
 		for (final File file : Objects.requireNonNull(folder.listFiles()))
 		{
 			if (file.isDirectory())
 			{
-				project = readFolderRe(file, project, settings);
+				project = readFolderRe(file, project, settings, duration);
 			} else
 			{
 				String name = file.getName();
@@ -42,7 +42,7 @@ public class MultiCSV
 					if (ending.equalsIgnoreCase(".csv"))
 					{
 						String[][] stringFile = ReadWrite.readCSV(file);
-						Layer<LLAElement> layer = ReadWrite.stringsToLayer(stringFile, file.lastModified(),
+						Layer<LLAElement> layer = ReadWrite.stringsToLayer(stringFile, file.lastModified(), duration,
 								nameNoEnding, settings);
 						project.add(layer);
 					}
