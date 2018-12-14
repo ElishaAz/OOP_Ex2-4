@@ -4,10 +4,7 @@ import GIS.LLAElement;
 import GIS.Layer;
 import GIS.Project;
 import Geom.LLA;
-import de.micromata.opengis.kml.v_2_2_0.Document;
-import de.micromata.opengis.kml.v_2_2_0.Folder;
-import de.micromata.opengis.kml.v_2_2_0.Kml;
-import de.micromata.opengis.kml.v_2_2_0.Placemark;
+import de.micromata.opengis.kml.v_2_2_0.*;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -25,6 +22,7 @@ import java.util.List;
 public class ReadWrite
 {
 	public static final String csvSplitRegex = ",";
+
 	public static String[][] readCSV(File file)
 	{
 		List<String[]> csvFile = new LinkedList<>();
@@ -249,7 +247,7 @@ public class ReadWrite
 				settings.nameMenuValue, settings.timeMenuValue, settings.timePattern);
 	}
 
-	public static void writeKML(File file, Project<Layer<LLAElement>> project)
+	public static void writeKML(File file, Project<Layer<LLAElement>> project, long duration)
 	{
 		final Kml kml = new Kml();
 		Folder folder = kml.createAndSetFolder().withName(project.get_Meta_data().toString());
@@ -263,7 +261,8 @@ public class ReadWrite
 				placemark.createAndSetPoint()
 						.addToCoordinates(element.getGeom().getLongitude(), element.getGeom().getLatitude(),
 								element.getGeom().getAltitude());
-				placemark.createAndSetTimeStamp().setWhen("" + element.getData().getUTC());
+				placemark.createAndSetTimeSpan().withBegin(String.valueOf(element.getData().getUTC()))
+						.withEnd(String.valueOf(element.getData().getUTC() + duration));
 			}
 		}
 		try
