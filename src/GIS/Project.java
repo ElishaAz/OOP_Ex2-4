@@ -10,21 +10,24 @@ import java.util.HashSet;
  */
 public class Project<P extends GIS_layer> extends HashSet<P> implements GIS_project<P>
 {
-	public Project(long time, Point3D orientation, String name)
+	public static final long defaultDuration = 1000;
+
+	public Project(long time, long duration, Point3D orientation, String name)
 	{
 		this.time = time;
+		this.duration = duration;
 		this.orientation = orientation;
 		this.name = name;
 	}
 
-	public Project(long time, String name)
+	public Project(long time, long duration, String name)
 	{
-		this(time, new Point3D(0, 0, 0), name);
+		this(time, duration, new Point3D(0, 0, 0), name);
 	}
 
 	public Project(String name)
 	{
-		this((new Date()).getTime(), name);
+		this((new Date()).getTime(), defaultDuration, name);
 	}
 
 	public Project()
@@ -32,13 +35,13 @@ public class Project<P extends GIS_layer> extends HashSet<P> implements GIS_proj
 		this("Project {0}");
 	}
 
-	long time;
-	Point3D orientation;
-	String name;
+	private long time, duration;
+	private Point3D orientation;
+	private String name;
 
 	@Override
 	public Data get_Meta_data()
 	{
-		return new Data(time, orientation, name);
+		return new Data(time, duration, orientation, name);
 	}
 }

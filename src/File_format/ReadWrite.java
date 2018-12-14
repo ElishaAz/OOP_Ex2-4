@@ -70,11 +70,12 @@ public class ReadWrite
 	}
 
 	/**
-	 * Converts a file in the format of {@code String[][]} (i.e the output of {@code readCSV}) to a {@code GIS.Layer}
-	 * object.
+	 * Converts a file in the format of {@code String[][]}
+	 * (i.e the output of {@link #readCSV(File)}) to a {@link GIS.Layer} object.
 	 *
 	 * @param file           a csv-like file int the form {@code String[][]}.
-	 * @param time           the timestamp for {@code Layer}'s Data.
+	 * @param time           the start of the timespan for {@code Layer}'s Data.
+	 * @param duration       the duration of the timespan.
 	 * @param name           the name for {@code Layer}'s Data.
 	 * @param fileStartIndex ignores lines before this index.
 	 * @param latIndex       the line index of the latitude values.
@@ -83,13 +84,14 @@ public class ReadWrite
 	 *                       set to 0).
 	 * @param nameIndex      the line index of the new for LLAElement's Data (set to -1 if there isn't one. name will
 	 *                       be set to "").
-	 * @return a {@code GIS.Layer} object representing {@code file}.
+	 * @return a {@link GIS.Layer} object representing {@code file}.
 	 */
-	public static Layer<LLAElement> stringsToLayer(String[][] file, long time, String name, int fileStartIndex,
+	public static Layer<LLAElement> stringsToLayer(String[][] file, long time, long duration, String name,
+												   int fileStartIndex,
 												   int latIndex, int lonIndex, int altIndex, int nameIndex,
 												   int timeIndex, String timePattern)
 	{
-		Layer<LLAElement> layer = new Layer<>(time, name);
+		Layer<LLAElement> layer = new Layer<>(time, duration, name);
 
 		for (int i = fileStartIndex; i < file.length; i++)
 		{
@@ -155,18 +157,21 @@ public class ReadWrite
 						" " +
 						"use it");
 			}
-			layer.add(new LLAElement(new LLA(lat, lon, alt), time, (elementName == null) ? "" : elementName));
+			layer.add(new LLAElement(new LLA(lat, lon, alt), time, duration, (elementName == null) ? "" :
+					elementName));
 		}
 
 		return layer;
 	}
 
 	/**
-	 * Converts a file in the format of {@code String[][]} (i.e the output of {@code readCSV}) to a {@code GIS.Layer}
+	 * Converts a file in the format of {@code String[][]} (i.e the output of {@link #readCSV(File)}) to a
+	 * {@link GIS.Layer}
 	 * object.
 	 *
 	 * @param file          a csv-like file int the form {@code String[][]}.
-	 * @param time          the timestamp for {@code Layer}'s Data.
+	 * @param time          the start of the timespan for {@code Layer}'s Data.
+	 * @param duration      the duration of the timespan.
 	 * @param name          the name for {@code Layer}'s Data.
 	 * @param menuIndex     the index of the menu line (usually 0). Lines before this one will be ignored.
 	 * @param latMenuValue  Latitude's value in the menu.
@@ -175,9 +180,10 @@ public class ReadWrite
 	 * @param nameMenuValue the line's name's value in the menu.
 	 * @param timeMenuValue the lin's currentTime's value in the menu.
 	 * @param timePattern   the format the currentTime is in (i.e. "yyyy-MM-dd HH:mm:ss").
-	 * @return a {@code GIS.Layer} object representing {@code file}.
+	 * @return a {@link GIS.Layer} object representing {@code file}.
 	 */
-	public static Layer<LLAElement> stringsToLayer(String[][] file, long time, String name, int menuIndex,
+	public static Layer<LLAElement> stringsToLayer(String[][] file, long time, long duration, String name,
+												   int menuIndex,
 												   String latMenuValue, String lonMenuValue, String altMenuValue,
 												   String nameMenuValue,
 												   String timeMenuValue, String timePattern)
@@ -225,7 +231,8 @@ public class ReadWrite
 		{
 			throw new IllegalArgumentException("Time menu value \"" + timeMenuValue + "\" was not found");
 		}
-		return stringsToLayer(file, time, name, menuIndex + 1, latIndex, lonIndex, altIndex, nameIndex, timeIndex,
+		return stringsToLayer(file, time, duration, name, menuIndex + 1, latIndex, lonIndex, altIndex, nameIndex,
+				timeIndex,
 				timePattern);
 	}
 
@@ -235,19 +242,22 @@ public class ReadWrite
 	 * object.
 	 *
 	 * @param file     a csv-like file int the form {@code String[][]}.
-	 * @param time     the timestamp for {@code Layer}'s Data.
+	 * @param time     the start of the timespan for {@code Layer}'s Data.
+	 * @param duration the duration of the timespan.
 	 * @param name     the name for {@code Layer}'s Data.
 	 * @param settings a {@code MenuSettings} object with the settings.
 	 * @return a {@code GIS.Layer} object representing {@code file}.
 	 */
-	public static Layer<LLAElement> stringsToLayer(String[][] file, long time, String name, CSV_MenuSettings settings)
+	public static Layer<LLAElement> stringsToLayer(String[][] file, long time, long duration, String name,
+												   CSV_MenuSettings settings)
 	{
-		return stringsToLayer(file, time, name, settings.menuIndex, settings.latMenuValue, settings.lonMenuValue,
+		return stringsToLayer(file, time, duration, name, settings.menuIndex, settings.latMenuValue,
+				settings.lonMenuValue,
 				settings.altMenuValue,
 				settings.nameMenuValue, settings.timeMenuValue, settings.timePattern);
 	}
 
-	public static void writeKML(File file, Project<Layer<LLAElement>> project, long duration)
+	public static void writeKML(File file, Project<Layer<LLAElement>> project)
 	{
 		final Kml kml = new Kml();
 		Folder folder = kml.createAndSetFolder().withName(project.get_Meta_data().toString());
@@ -262,7 +272,7 @@ public class ReadWrite
 						.addToCoordinates(element.getGeom().getLongitude(), element.getGeom().getLatitude(),
 								element.getGeom().getAltitude());
 				placemark.createAndSetTimeSpan().withBegin(String.valueOf(element.getData().getUTC()))
-						.withEnd(String.valueOf(element.getData().getUTC() + duration));
+						.withEnd(String.valueOf(element.getData().getUTC() + element.getData().getDuration()));
 			}
 		}
 		try

@@ -17,12 +17,13 @@ public class Data implements Meta_data
 	 * Creates a new Data.
 	 *
 	 * @param string String for the toString method.
-	 *               "{0}" will be replaced with {@code time} in the format "MM/dd/yyyy HH:mm:ss".
+	 *               "{0}" will be replaced with {@code currentTime} in the format "MM/dd/yyyy HH:mm:ss".
 	 *               "{1}" will be replaced with {@code orientation.toString()}.
 	 */
-	public Data(long time, Point3D orientation, String string)
+	public Data(long time,long duration, Point3D orientation, String string)
 	{
 		this.time = time;
+		this.duration = duration;
 		this.orientation = orientation;
 		if (string != null)
 		{
@@ -31,6 +32,7 @@ public class Data implements Meta_data
 	}
 
 	private long time;
+	private long duration;
 	private Point3D orientation;
 	public String string = "Data({0}, {1})";
 
@@ -41,6 +43,13 @@ public class Data implements Meta_data
 	public long getUTC()
 	{
 		return time;
+	}
+
+	/** returns the Universal Time Clock duration associated with this data; */
+	@Override
+	public long getDuration()
+	{
+		return duration;
 	}
 
 	/**

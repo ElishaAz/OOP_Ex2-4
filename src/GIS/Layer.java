@@ -11,21 +11,24 @@ import java.util.HashSet;
  */
 public class Layer<E extends GIS_element> extends HashSet<E> implements GIS_layer<E>
 {
-	public Layer(long time, Point3D orientation, String name)
+	public static final long defaultDuration = 1000;
+
+	public Layer(long time,long duration, Point3D orientation, String name)
 	{
 		this.time = time;
+		this.duration = duration;
 		this.orientation = orientation;
 		this.name = name;
 	}
 
-	public Layer(long time, String name)
+	public Layer(long time,long duration, String name)
 	{
-		this(time, new Point3D(0, 0, 0), name);
+		this(time,duration, new Point3D(0, 0, 0), name);
 	}
 
 	public Layer(String name)
 	{
-		this((new Date()).getTime(), name);
+		this((new Date()).getTime(),defaultDuration, name);
 	}
 
 	public Layer()
@@ -33,13 +36,13 @@ public class Layer<E extends GIS_element> extends HashSet<E> implements GIS_laye
 		this("Layer {0}");
 	}
 
-	long time;
-	Point3D orientation;
-	String name;
+	private long time, duration;
+	private Point3D orientation;
+	private String name;
 
 	@Override
 	public Data get_Meta_data()
 	{
-		return new Data(time, orientation, name);
+		return new Data(time,duration, orientation, name);
 	}
 }

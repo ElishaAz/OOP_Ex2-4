@@ -10,25 +10,27 @@ import java.util.Date;
  */
 public class LLAElement implements GIS_element
 {
+	public static final long defaultDuration = 1000;
 	private LLA point;
-	private long time;
+	private long time, duration;
 	private Point3D orientation;
 	private String name;
 
-	public LLAElement(LLA point, long time, Point3D orientation, String name)
+	public LLAElement(LLA point, long time, long duration, Point3D orientation, String name)
 	{
 		this.point = point;
 		this.time = time;
+		this.duration = duration;
 		this.orientation = orientation;
 		this.name = name;
 	}
-	public LLAElement(LLA point, long time, String name)
+	public LLAElement(LLA point, long time, long duration, String name)
 	{
-		this(point,time,new Point3D(0,0,0),name);
+		this(point,time,duration,new Point3D(0,0,0),name);
 	}
 	public LLAElement(LLA point, String name)
 	{
-		this(point, (new Date()).getTime(), name);
+		this(point, (new Date()).getTime(),defaultDuration, name);
 	}
 	public LLAElement()
 	{
@@ -44,7 +46,7 @@ public class LLAElement implements GIS_element
 	@Override
 	public Data getData()
 	{
-		return new Data(time, orientation, name);
+		return new Data(time,duration, orientation, name);
 	}
 
 	@Override
