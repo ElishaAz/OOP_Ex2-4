@@ -33,6 +33,7 @@ public class MoveRecord
 		this.startTime = startTime;
 		this.endTime = endTime;
 	}
+
 	public MoveRecord(MoveRecord other)
 	{
 		this.from = other.from;
@@ -50,7 +51,10 @@ public class MoveRecord
 	 */
 	public LLA getPositionAtTime(double time)
 	{
-		if (startTime <= time && time <= endTime)
+		if (time < startTime)
+		{
+			return from.clone();
+		} else if (startTime <= time && time <= endTime)
 		{
 			double ratio = (time - startTime) / (endTime - startTime);
 			LLA point = from.clone();
@@ -58,8 +62,10 @@ public class MoveRecord
 			moveVector.multiply(ratio);
 			point.transform(moveVector);
 			return point;
+		}else
+		{
+			return to.clone();
 		}
-		return null;
 	}//PositionAndDirection
 
 	/**
