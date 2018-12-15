@@ -54,18 +54,18 @@ public class MultiTSP implements mTSP
 	@Override
 	public void compute()
 	{
-		boolean finished = false;
-		while (!finished)
+		System.out.println("@compute");
+		while (!allCitiesVisited())
 		{
 			SalesmanToCity nextMove = next();
 
 			if (nextMove == null)
-				finished = true;
+				break;
 			else
 				visit(nextMove);
 		}
 	}
-
+	int i = 0;
 	/**
 	 * Calculates the best next visit, using a greedy algorithm (no optimal!).
 	 *
@@ -75,37 +75,29 @@ public class MultiTSP implements mTSP
 	 */
 	private SalesmanToCity next()
 	{
+		System.out.println("@next: " + i++);
 		if (salesmen.length == 0 || cities.length == 0)
 			return null;
 
 		updateDistances();
 
 
-		/* Finds the salesman that is closest to a city
-		*
-		{*/
+		/* Finds the salesman that is closest to a city */
 
 		double minDistance = Double.POSITIVE_INFINITY;
-		int salesmanIndex = -1;
-		int cityIndex = -1;
+		SalesmanToCity stc = null;
 		for (int s = 0; s < salesmen.length; s++)
 		{
-			cityIndex = getClosestCity(s);
-			double currentDistance = distances[s][cityIndex];
+			int currentCityIndex = getClosestCity(s);
+			double currentDistance = distances[s][currentCityIndex];
 			if (currentDistance <= minDistance)
 			{
 				minDistance = currentDistance;
-				salesmanIndex = s;
+				stc = new SalesmanToCity(s,currentCityIndex);
 			}
 		}
-
-		if (salesmanIndex == -1 || cityIndex == -1)
-			return null;
-		/*
-		}*/
-
-		SalesmanToCity ans = new SalesmanToCity(salesmanIndex, cityIndex);
-		return ans;
+		System.out.println(stc);
+		return stc;
 	}
 
 	private void updateDistances()
@@ -137,7 +129,7 @@ public class MultiTSP implements mTSP
 		double[] citiesDistances = distances[salesmanIndex];
 		for (int i = 0; i < citiesDistances.length; i++)
 		{
-			if (citiesDistances[i] <= distance)
+			if (!cities[i].visited() && citiesDistances[i] <= distance)
 			{
 				distance = citiesDistances[i];
 				index = i;
@@ -170,9 +162,11 @@ public class MultiTSP implements mTSP
 	@Override
 	public boolean visit(int salesmanIndex, int cityIndex)
 	{
+		System.out.println("@visit " + salesmanIndex + ", " + cityIndex);
 		if (0 <= salesmanIndex && salesmanIndex < salesmen.length &&
 				0 <= cityIndex && cityIndex < cities.length)
 		{
+			System.out.println("city was " + (cities[cityIndex].visited()? "" : "not ") + "visited");
 			return salesmen[salesmanIndex].travelTo(cities[cityIndex]);
 		} else
 		{

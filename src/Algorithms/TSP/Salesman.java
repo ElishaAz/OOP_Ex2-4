@@ -72,7 +72,13 @@ public class Salesman
 				return move.clone();
 			}
 		}
-		return null;
+		if (records.size() == 0)
+			return null;
+
+		if (records.get(0).startTime < time)
+			return records.get(0).clone();
+		else
+			return records.get(records.size() - 1).clone();
 	}
 
 	@SuppressWarnings("MethodDoesntCallSuperMethod")
