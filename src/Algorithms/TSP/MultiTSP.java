@@ -162,11 +162,9 @@ public class MultiTSP implements mTSP
 	@Override
 	public boolean visit(int salesmanIndex, int cityIndex)
 	{
-		System.out.println("@visit " + salesmanIndex + ", " + cityIndex);
 		if (0 <= salesmanIndex && salesmanIndex < salesmen.length &&
 				0 <= cityIndex && cityIndex < cities.length)
 		{
-			System.out.println("city was " + (cities[cityIndex].visited()? "" : "not ") + "visited");
 			return salesmen[salesmanIndex].travelTo(cities[cityIndex]);
 		} else
 		{
