@@ -18,8 +18,8 @@ import java.util.List;
 public class MultiTSP implements mTSP
 {
 
-	private City[] cities;
-	private Salesman[] salesmen;
+	public City[] cities;
+	public Salesman[] salesmen;
 
 	/**
 	 * This is a simple class containing to indexes for use in {@link MultiTSP}, one of salesmen, and one of cities.

@@ -31,6 +31,11 @@ public class Salesman
 	public Salesman(Salesman other)
 	{
 		this(other.position, other.speed, other.currentTime);
+
+		for (MoveRecord mr :other.records)
+		{
+			records.add(mr.clone());
+		}
 	}
 
 	/**
