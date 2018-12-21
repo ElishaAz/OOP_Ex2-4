@@ -21,6 +21,6 @@ public class Usage
 		Csv2kml.convert("src/UsageExamples/File_format/WigleWifi_20171201110209.csv",
 				"src/UsageExamples/File_format/WigleWifi_20171201110209.kml", WigleWiFiSettings, 60000);
 		ReadWrite.writeKML(new File("src/UsageExamples/File_format/dataFile.kml"),
-				MultiCSV.readFolder("src/UsageExamples/File_format/data", WigleWiFiSettings));
+				MultiCSV.readFolder("src/UsageExamples/File_format/data", WigleWiFiSettings,60000));
 	}
 }

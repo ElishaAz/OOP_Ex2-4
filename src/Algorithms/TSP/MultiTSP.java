@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author Elisha
  */
-public class MultiTSP implements mTSP
+public class MultiTSP implements mTSP<Salesman, City>
 {
 
 	public City[] cities;
@@ -54,7 +54,6 @@ public class MultiTSP implements mTSP
 	@Override
 	public void compute()
 	{
-		System.out.println("@compute");
 		while (!allCitiesVisited())
 		{
 			SalesmanToCity nextMove = next();
@@ -65,7 +64,9 @@ public class MultiTSP implements mTSP
 				visit(nextMove);
 		}
 	}
+
 	int i = 0;
+
 	/**
 	 * Calculates the best next visit, using a greedy algorithm (no optimal!).
 	 *
@@ -75,7 +76,6 @@ public class MultiTSP implements mTSP
 	 */
 	private SalesmanToCity next()
 	{
-		System.out.println("@next: " + i++);
 		if (salesmen.length == 0 || cities.length == 0)
 			return null;
 
@@ -93,10 +93,9 @@ public class MultiTSP implements mTSP
 			if (currentDistance <= minDistance)
 			{
 				minDistance = currentDistance;
-				stc = new SalesmanToCity(s,currentCityIndex);
+				stc = new SalesmanToCity(s, currentCityIndex);
 			}
 		}
-		System.out.println(stc);
 		return stc;
 	}
 
@@ -240,6 +239,7 @@ public class MultiTSP implements mTSP
 	/**
 	 * @return the array of cities.
 	 */
+	@Override
 	public City[] getCities()
 	{
 		return cities;
@@ -248,6 +248,7 @@ public class MultiTSP implements mTSP
 	/**
 	 * @return the array of salesmen.
 	 */
+	@Override
 	public Salesman[] getSalesmen()
 	{
 		return salesmen;

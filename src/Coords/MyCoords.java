@@ -42,7 +42,7 @@ public class MyCoords implements coords_converter
 	@Override
 	public Point3D vector3D(Point3D gps0, Point3D gps1)
 	{
-		return (new LLA(gps0)).distance3D(new LLA(gps1));
+		return (new LLA(gps0)).distance3DVector(new LLA(gps1));
 	}
 
 	/**

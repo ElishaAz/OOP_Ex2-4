@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author Elisha
  */
-public class City
+public class City implements ICity
 {
 	public final LLA position;
 	protected boolean _visited;
@@ -16,19 +16,20 @@ public class City
 
 	public City(LLA position)
 	{
-		this.position = position;
+		this.position = position.clone();
 		_visited = false;
 		_timeVisited = Double.NEGATIVE_INFINITY;
 	}
 
 	public City(City other)
 	{
-		position = other.position;
+		position = other.position.clone();
 		_visited = other._visited;
 		_timeVisited = other._timeVisited;
 
 	}
 
+	@Override
 	public boolean wasVisited(double time)
 	{
 		return time >= _timeVisited;
@@ -39,6 +40,7 @@ public class City
 	 *
 	 * @return false if this city was already visited.
 	 */
+	@Override
 	public boolean visit(double time)
 	{
 		if (_visited)
@@ -53,6 +55,7 @@ public class City
 	 *
 	 * @return false if {@link #visit(double)} was already called.
 	 */
+	@Override
 	public boolean visited()
 	{
 		return _visited;
@@ -61,6 +64,7 @@ public class City
 	/**
 	 * @return the time this city was visited.
 	 */
+	@Override
 	public double timeVisited()
 	{
 		return _timeVisited;
@@ -72,5 +76,15 @@ public class City
 	public City clone()
 	{
 		return new City(this);
+	}
+
+	@Override
+	public String toString()
+	{
+		return "City{" +
+				"position=" + position +
+				", _visited=" + _visited +
+				", _timeVisited=" + _timeVisited +
+				'}';
 	}
 }

@@ -42,11 +42,18 @@ public class Point3D implements Geom_element, Serializable
 	public int iy() {return (int)_y;}
 	public int iz() {return (int)_z;}
 		
-	public void add(Point3D p) { add(p._x,p._y,p._z);}
-	public void add(double dx, double dy, double dz) {
+	public Point3D add(Point3D p) { return add(p._x,p._y,p._z);}
+	public Point3D add(double dx, double dy, double dz) {
 			_x+=dx;_y+=dy;_z+=dz;
+			return this;
 		}
-	public void add(double x, double y){this.add(x,y,0);}
+	public Point3D add(double x, double y){return add(x,y,0);}
+
+	public Point3D multiply(double scalar)
+	{
+		_x *= scalar;_y *= scalar; _z *= scalar;
+		return this;
+	}
 
 	public String toString() 
 	{
@@ -64,6 +71,18 @@ public class Point3D implements Geom_element, Serializable
 		double dz = _z-z;
 		double t = dx*dx+dy*dy+dz*dz;
 		return Math.sqrt(t);
+	}
+
+	public double size()
+	{
+		return Math.sqrt(_x *_x + _y * _y + _z * _z);
+	}
+
+	public Point3D normalized()
+	{
+		Point3D ans = new Point3D(this);
+		ans.multiply(1/ans.size());
+		return ans;
 	}
 
 	public boolean equals(Point3D p2)

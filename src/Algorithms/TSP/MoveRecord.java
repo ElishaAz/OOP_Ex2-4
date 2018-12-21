@@ -36,8 +36,8 @@ public class MoveRecord
 
 	public MoveRecord(MoveRecord other)
 	{
-		this.from = other.from;
-		this.to = other.to;
+		this.from = other.from.clone();
+		this.to = other.to.clone();
 		this.startTime = other.startTime;
 		this.endTime = other.endTime;
 	}
@@ -51,17 +51,18 @@ public class MoveRecord
 	 */
 	public LLA getPositionAtTime(double time)
 	{
-		if (time < startTime)
+		if (time <= startTime)
 		{
 			return from.clone();
-		} else if (startTime <= time && time <= endTime)
+		} else if (startTime < time && time < endTime)
 		{
 			double ratio = (time - startTime) / (endTime - startTime);
 			LLA point = from.clone();
 			Point3D moveVector = from.distance3DVector(to);
 			moveVector.multiply(ratio);
-			point.transform(moveVector);
+			point = point.transform(moveVector);
 			return point;
+
 		}else
 		{
 			return to.clone();
@@ -86,5 +87,11 @@ public class MoveRecord
 	public MoveRecord clone()
 	{
 		return new MoveRecord(this);
+	}
+
+	@Override
+	public String toString()
+	{
+		return "MoveRecord{"+ from + " " + to + " " + startTime + " " + endTime + '}';
 	}
 }

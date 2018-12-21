@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author Elisha
  */
-public class Salesman
+public class Salesman implements ISalesman
 {
 	protected LLA position;
 	protected double speed;
@@ -18,8 +18,9 @@ public class Salesman
 
 	public Salesman(LLA position, double speed, double currentTime)
 	{
-		this.position = position;
+		this.position = position.clone();
 		this.speed = speed;
+		this.currentTime = currentTime;
 		records = new ArrayList<>();
 	}
 
@@ -30,9 +31,9 @@ public class Salesman
 
 	public Salesman(Salesman other)
 	{
-		this(other.position, other.speed, other.currentTime);
+		this(other.position.clone(), other.speed, other.currentTime);
 
-		for (MoveRecord mr :other.records)
+		for (MoveRecord mr : other.records)
 		{
 			records.add(mr.clone());
 		}
@@ -44,6 +45,7 @@ public class Salesman
 	 * @param city city to travel to.
 	 * @return false if {@code city} was already visited,
 	 */
+	@Override
 	public boolean travelTo(City city)
 	{
 		if (city.visited())
@@ -52,7 +54,7 @@ public class Salesman
 		MoveRecord record = new MoveRecord(position.clone(), currentTime);
 
 		currentTime += this.position.distance3D(city.position) / speed;
-		this.position = city.position;
+		this.position = city.position.clone();
 
 		record.to = position.clone();
 		record.endTime = currentTime;
@@ -67,20 +69,23 @@ public class Salesman
 	 * @return the record of the move this salesman was doing at the time {@code time}.
 	 * Null if this salesman wasn't moving at that time.
 	 */
+	@Override
 	public MoveRecord getMoveAtTime(double time)
 	{
+		if (records.size() == 0)
+			return null;
+
 		for (int i = 0; i < records.size(); i++)
 		{
 			MoveRecord move = records.get(i);
 			if (move.startTime <= time && time <= move.endTime)
 			{
+				System.out.println("Got move " + move);
 				return move.clone();
 			}
 		}
-		if (records.size() == 0)
-			return null;
 
-		if (records.get(0).startTime < time)
+		if (records.get(0).startTime > time)
 			return records.get(0).clone();
 		else
 			return records.get(records.size() - 1).clone();
@@ -111,6 +116,7 @@ public class Salesman
 	/**
 	 * @return a copy of the move records
 	 */
+	@Override
 	public List<MoveRecord> getRecords()
 	{
 		ArrayList<MoveRecord> records = new ArrayList<>(this.records.size());
@@ -119,5 +125,16 @@ public class Salesman
 			records.add(record.clone());
 		}
 		return records;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "Salesman{" +
+				"position=" + position +
+				", speed=" + speed +
+				", currentTime=" + currentTime +
+				", records=" + records +
+				'}';
 	}
 }

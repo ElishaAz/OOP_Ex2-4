@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author Elisha
  */
-public interface mTSP
+public interface mTSP <S extends ISalesman,C extends ICity>
 {
 	/** Computes the algorithm. */
 	void compute();
@@ -52,4 +52,16 @@ public interface mTSP
 	 * @return visit time of each of the cities.
 	 */
 	double[] getVisitTimes();
+
+
+	/**
+	 * @return the array of salesmen.
+	 */
+	public S[] getSalesmen();
+
+	/**
+	 * @return the array of cities.
+	 */
+	public C[] getCities();
+
 }
