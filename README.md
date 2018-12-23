@@ -10,7 +10,7 @@ It contains the following packages:
 # Packman
 This Project uses the base to create a kind of graphical "Game," where Packmen need to eat all the Fruit with minimal time.
 
-Dependencies
+# Dependencies
 <br/>  JAK (Java API for KML): https://labs.micromata.de/projects/jak.html
 <br/>  JSON: http://code.google.com/p/json-simple/
   
