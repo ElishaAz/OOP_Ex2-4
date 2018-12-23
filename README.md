@@ -9,6 +9,8 @@ It contains the following packages:
 
 # Packman
 This Project uses the base to create a kind of graphical "Game," where Packmen need to eat all the Fruit with minimal time.
+Because this problem is simular to the Traveling Salesman Problem (https://en.wikipedia.org/wiki/Travelling_salesman_problem) with multiple salesmen (mTSP), an algorithm for solving mTSp was added to the package "Algorithms."
+Note: the algorithm used is not optimal.
 
 # Dependencies
 <br/>  JAK (Java API for KML): https://labs.micromata.de/projects/jak.html
